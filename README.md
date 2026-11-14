@@ -1,13 +1,4 @@
-# Learnora LMS — PostgreSQL Edition
-
-**Interview-ready source conversion** of the existing Simplified LMS frontend and APIs.
-Original user-approved visual design is preserved. The backend now uses PostgreSQL rather
-than MongoDB Atlas or Mongoose.
-
-> **Verification status:** Source-level parsing/import checks and database-contract
-> tests are provided. Full npm installation, production build, live PostgreSQL/Better Auth
-> login, CRUD integration and cloud deployment **must be run with your database URL**.
-> No real credentials are bundled. An explicitly labeled example course/lecture dataset is supplied for evaluator setup.
+# Learnora LMS — 
 
 ## Stack
 
@@ -68,10 +59,6 @@ Do not copy only the hostname. The URL commonly looks like:
 ```text
 postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
 ```
-
-An equivalent PostgreSQL database (e.g. Supabase or managed Postgres) also works. Keep TLS
-enabled. Note: moving from Atlas to Postgres changes the service and connectivity path;
-it does **not** guarantee that an underlying PC-wide TLS/network issue is gone.
 
 ## 2. Install dependencies
 
@@ -139,8 +126,6 @@ npm run admin:create -- --email your-email@example.com --name "LMS Admin" --role
 cd ..
 ```
 
-The CLI prompts for a password. Use your own email; **never expose credentials in GitHub**.
-
 ## 6. Database setup & sample data (for evaluators)
 
 **Requirement 4 — "Seed data or instructions to create initial data"** is fulfilled by the
@@ -150,27 +135,6 @@ plus the commands below. This is a repeatable, **non-destructive** setup: it add
 existing admin users. The SQL uses fixed UUIDs, a transaction and `ON CONFLICT (id)
 DO NOTHING`, so rerunning it does not create duplicates. The referenced video
 clips belong to external creators; playback/embedding must be checked in the live app.
-
-### A. Start from a fresh PostgreSQL database
-
-1. Create a Neon PostgreSQL project and copy its **direct** connection string.
-2. From the repository root, run `npm install` and create `server/.env` from
-   `server/.env.example`. Set `DATABASE_URL`, `CLIENT_ORIGIN`, `BETTER_AUTH_URL`,
-   and a unique `BETTER_AUTH_SECRET` (at least 32 characters). **Do not commit `.env`.**
-3. Run the following in order **from the repository root**:
-
-```powershell
-npm run db:ping
-npm run db:migrate
-npm run auth:migrate
-npm run db:seed:preview
-npm run db:seed
-npm run db:seed:verify
-```
-
-`auth:migrate` creates Better Auth tables (`user`, `session`, `account`,
-`verification`); confirm its prompt if asked. The seed only inserts course and
-lecture records and **never** creates an admin/password.
 
 4. To create an admin **in a development/evaluator database**, use:
 
@@ -253,10 +217,6 @@ With the backend running, and **ONLY against your local test instance and test d
 powershell -ExecutionPolicy Bypass -File .\scripts\test-e2e.ps1
 ```
 
-This exercises health, anonymous protection, admin login, course creation/edit/deletion,
-lecture creation/edit, cascade path and logout. It creates temporary records; do not run
-it against production. Verify cleanup afterwards.
-
 ## Folder structure
 
 ```text
@@ -292,22 +252,3 @@ Render-first deployment order, Vercel settings, environment variables, and tests
 Vercel deployment. Test `npm run check`, `npm run build`, `npm test`, and
 `npm run check:deploy` before pushing.
 
-Use `npm run smoke:production -- https://YOUR_VERCEL_URL` after deployment.
-This is not considered production-verified until the actual URL and login flow are tested.
-
-## Known limitations
-
-- This is a clean PostgreSQL replacement, **not a data importer**. MongoDB Atlas courses,
-  lectures and admin accounts do not automatically transfer to PostgreSQL.
-- Course and lecture URLs now use UUIDs. Old MongoDB ObjectId-based URLs will not resolve.
-- PostgreSQL's `price` is an integer BDT display value; it is not an actual payment.
-- Third-party media and YouTube/Vimeo embeds depend on external hosting and permissions.
-- No dependency lockfile is bundled because package installation could not be completed
-  in the build environment. Run `npm install` and commit the resulting lockfile.
-
-## Resources
-
-- [PostgreSQL adapter — Better Auth](https://better-auth.com/docs/adapters/postgresql)
-- [Better Auth CLI migration](https://better-auth.com/docs/concepts/cli)
-- [Neon connection string](https://neon.com/docs/connect/connect-from-any-app)
-- [LMS API reference](docs/API.md)
