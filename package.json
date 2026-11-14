@@ -1,0 +1,27 @@
+{
+  "name": "simplified-lms",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "concurrently --kill-others -n API,WEB -c blue,green \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:ui": "npm run dev -w client",
+    "dev:api": "npm run dev -w server",
+    "check": "npm run typecheck -w server && npm run typecheck -w client",
+    "build": "npm run build -w server && npm run build -w client",
+    "test": "npm run test:validation -w server && npm run test:schema -w server && npm run test:video -w client",
+    "qa:static": "node scripts/qa-static.mjs",
+    "db:migrate": "npm run db:migrate -w server",
+    "db:ping": "npm run db:ping -w server",
+    "auth:migrate": "npm run auth:migrate -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

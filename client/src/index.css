@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #f8f5f2;
+  --color-chocolate: #35190d;
+  --color-clay: #916d5b;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+}
+
+:root {
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: #f8f5f2; }
+a { text-decoration: none; }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid #916d5b; outline-offset: 4px; }
+.hero :focus-visible, .site-footer :focus-visible, .detail-hero :focus-visible, .learning-cta :focus-visible { outline-color: #fff; }
