@@ -33,5 +33,12 @@ app.get("/api/health", async (_req, res) => {
 });
 app.use("/api/courses", courseRouter);
 app.use("/api/admin", adminRouter);
-app.use((_req, res) => res.status(404).json({ success: false, message: "API endpoint not found" }));
+
+// This service is API-only in production. Vercel serves the React application
+// and proxies /api requests to Render, retaining a first-party browser origin.
+app.use("/api", (_req, res) => {
+  res.status(404).json({ success: false, message: "API endpoint not found" });
+});
+app.use((_req, res) => res.status(404).json({ success: false, message: "Not found" }));
+
 app.use(errorHandler);
