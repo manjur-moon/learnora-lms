@@ -189,13 +189,21 @@ scripts/                             Windows setup and API QA scripts
 docs/API.md                         Complete API reference
 ```
 
-## Cloud deployment note
+## Production deployment (Vercel + Render + Neon)
 
-A cloud database does **not** automatically make this website public. Deploy the Express
-backend and React production build separately or through a same-origin host, and configure
-production HTTPS `CLIENT_ORIGIN`, `BETTER_AUTH_URL`, cookies, env secrets, routes and
-reliable application hosting. This archive is the **PostgreSQL migration**, not a claim
-that cloud deployment has been completed.
+**Frontend on Vercel, API + Better Auth on Render, database on existing Neon.**
+The browser calls same-origin `/api`; Vercel `vercel.json` proxies these requests
+server-side to Render. This avoids the third-party-cookie issues of making direct
+cross-site authentication requests from the browser.
+
+See **[PRODUCTION-DEPLOYMENT.md](PRODUCTION-DEPLOYMENT.md)** for the required
+Render-first deployment order, Vercel settings, environment variables, and tests.
+**Important:** replace the Render service URL placeholder in `vercel.json` before
+Vercel deployment. Test `npm run check`, `npm run build`, `npm test`, and
+`npm run check:deploy` before pushing.
+
+Use `npm run smoke:production -- https://YOUR_VERCEL_URL` after deployment.
+This is not considered production-verified until the actual URL and login flow are tested.
 
 ## Known limitations
 

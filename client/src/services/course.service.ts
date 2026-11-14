@@ -4,7 +4,7 @@ import type { Lecture } from "../types/lecture";
 
 /**
  * Vite proxies /api to Express locally (vite.config.ts).
- * Deploy /api behind a same-origin reverse proxy in production.
+ * In production Vercel rewrites /api to the Render backend on the same browser origin.
  */
 export const http = axios.create({
   baseURL: "/api",

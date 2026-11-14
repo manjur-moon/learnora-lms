@@ -19,7 +19,10 @@
     "qa:static": "node scripts/qa-static.mjs",
     "db:migrate": "npm run db:migrate -w server",
     "db:ping": "npm run db:ping -w server",
-    "auth:migrate": "npm run auth:migrate -w server"
+    "auth:migrate": "npm run auth:migrate -w server",
+    "start": "npm run start -w server",
+    "smoke:production": "node scripts/smoke-production.mjs",
+    "check:deploy": "node scripts/check-deploy-config.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.0.0"

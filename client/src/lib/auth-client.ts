@@ -3,8 +3,9 @@ import { adminClient } from "better-auth/client/plugins";
 
 /**
  * Auth requests go to /api/auth on the current origin.
- * Vite proxies /api locally; production should proxy /api to Express.
- * This keeps auth cookies first-party and out of localStorage.
+ * Vite proxies /api locally. In production, Vercel proxies /api to Render.
+ * The browser always calls its current origin, keeping auth cookies first-party.
+ * Do not point the browser directly to the onrender.com domain.
  */
 export const authClient = createAuthClient({
   plugins: [adminClient()],

@@ -5,8 +5,8 @@ import { connectDatabase, pool } from "./config/db.js";
 async function main(): Promise<void> {
   try {
     await connectDatabase();
-    const server = app.listen(env.PORT, () => {
-      console.info(`Backend: http://localhost:${env.PORT}`);
+    const server = app.listen(env.PORT, "0.0.0.0", () => {
+      console.info(`Backend listening on port ${env.PORT} (${env.NODE_ENV})`);
     });
 
     let closing = false;
